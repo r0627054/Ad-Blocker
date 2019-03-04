@@ -22,16 +22,28 @@ public class HTTP11Client extends HTTPClient {
 			this.socket = new Socket(command.getHost(), command.getPort());
 		}
 		DataOutputStream outStream = new DataOutputStream(this.getSocket().getOutputStream());
-		BufferedReader inFromServer = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
-		outStream.writeBytes(command.getHeader());
+			outStream.writeBytes(command.getHeader());
 		outStream.flush();
+		
 		//String response = inFromServer.readLine();
 		//System.out.println(response);
-		String response = inFromServer.lines().collect(Collectors.joining());
-		System.out.println(response);
+		//System.out.println(inFromServer.readLine());
+		
+		//String response = inFromServer.lines().collect(Collectors.joining());
+		//System.out.println(response);
+		
+		String outStr;
+		BufferedReader inFromServer = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
+        //Prints each line of the response 
+		String r = "";
+        while((outStr = inFromServer.readLine()) != null){
+            System.out.println(outStr);
+        	//r +=outStr;
+        }
+        System.out.println(r);
 		
 		
-		outStream.close();
+        outStream.close();
 		inFromServer.close();
 		this.socket.close();
 		}
