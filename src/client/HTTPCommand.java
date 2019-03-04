@@ -1,6 +1,7 @@
 package client;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 
 public class HTTPCommand {
 
@@ -9,12 +10,34 @@ public class HTTPCommand {
 	private HTTPMethod httpMethod;
 	
 	
-	public HTTPCommand(URI uri, int port, HTTPMethod httpMethod) {
-		this.setUri(uri);
+	public HTTPCommand(String uriString, int port, HTTPMethod httpMethod) {
+		this.createURI(uriString);
 		this.setPort(port);
 		this.setHttpmethod(httpMethod);
 	}
 
+	private void createURI(String uriString) {
+		String u =null;
+		if(uriString.startsWith("http")) {
+			u = uriString;
+		}else {
+			u = "http://" + uriString;
+		}
+		try {
+			this.setUri(new URI(u));
+		} catch (URISyntaxException e) {
+			throw new IllegalArgumentException("HTTPCommand cannot have an invalid URI.");
+		}
+	}
+	
+	public String getHost() {
+		return uri.getHost();
+	}
+	
+	public String getPath() {
+		return uri.getPath();
+	}
+	
 	public URI getUri() {
 		return uri;
 	}
@@ -47,5 +70,15 @@ public class HTTPCommand {
 		}
 		this.httpMethod = httpMethod;
 	}
+	
+	public String getHeader() {
+		String result = "";
+		result += "GET " + this.getPath() + " HTTP/1.1" + "\n";
+		result += "Host: " + this.getHost() + "\n\n";
+		
+		
+		return result;
+	}
+	
 
 }
