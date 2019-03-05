@@ -10,13 +10,11 @@ public abstract class HTTPCommand {
 
 	private URI uri;
 	private int port;
-	//private HTTPMethod httpMethod;
 	private HTTPVersion httpVersion;
 	
 	public HTTPCommand(String uriString, int port, String httpVersionString) {
 		this.setPort(port);
 		this.setUri(this.createURI(uriString));
-		//this.setHttpmethod(httpMethod);
 		this.setHttpVersion(this.createHTTPVersion(httpVersionString));
 	}
 	
@@ -74,26 +72,8 @@ public abstract class HTTPCommand {
 	
 	public abstract HTTPMethod getHttpmethod();
 	
-	/*public HTTPMethod getHttpmethod() {
-		return httpMethod;
-	}*/
-
-	/*private void setHttpmethod(HTTPMethod httpMethod) {
-		if(httpMethod == null) {
-			throw new IllegalArgumentException("HTTPMethod cannot be null.");
-		}
-		this.httpMethod = httpMethod;
-	}*/
-	
-	
 	public abstract String getHeader();
 	
-	/*public String getHeader() {
-		String result = "";
-		result += "GET " + this.getPath() + " HTTP/1.1" + "\n";
-		result += "Host: " + this.getHost() + "\n\n";
-		return result;
-	}*/
 	
 	public HTTPVersion getHttpVersion() {
 		return this.httpVersion;
