@@ -3,8 +3,8 @@ package client.commands;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import client.HTTPMethod;
-import client.HTTPVersion;
+import httpproperties.HTTPMethod;
+import httpproperties.HTTPVersion;
 
 public abstract class HTTPCommand {
 

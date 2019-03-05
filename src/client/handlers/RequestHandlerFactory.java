@@ -1,6 +1,6 @@
 package client.handlers;
 
-import client.HTTPMethod;
+import httpproperties.HTTPMethod;
 
 public class RequestHandlerFactory {
 

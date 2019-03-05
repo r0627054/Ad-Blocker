@@ -1,4 +1,4 @@
-package client;
+package httpproperties;
 
 public enum HTTPMethod {
 	HEAD("HEAD"),

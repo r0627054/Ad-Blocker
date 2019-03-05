@@ -1,6 +1,6 @@
 package client.commands;
 
-import client.HTTPMethod;
+import httpproperties.HTTPMethod;
 
 public class HTTPCommandFactory {
 

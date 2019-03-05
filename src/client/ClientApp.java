@@ -7,6 +7,7 @@ import java.net.UnknownHostException;
 
 import client.commands.HTTPCommand;
 import client.commands.HTTPCommandFactory;
+import httpproperties.HTTPMethod;
 
 public class ClientApp {
 
