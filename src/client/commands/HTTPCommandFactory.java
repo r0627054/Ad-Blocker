@@ -1,7 +1,6 @@
 package client.commands;
 
 import client.HTTPMethod;
-import client.handlers.GetRequestHandler;
 
 public class HTTPCommandFactory {
 
@@ -9,14 +8,14 @@ public class HTTPCommandFactory {
 		if(httpMethod == null) {
 			throw new IllegalArgumentException("Cannot create a HTTPCommand when httpMethod is null.");
 		}
-		HTTPCommand httpCommand = null;
+		HTTPCommand httpCommand;
 		switch (httpMethod) {
 		case GET:
-			//HTTPCommand = new HTTPGetCommand();
+			httpCommand = new HTTPGetCommand(uriString,port);
 			break;
 		//other cases go here
 		default:
-			//requestHandler = new GetRequestHandler();
+			httpCommand = new HTTPGetCommand(uriString,port);
 			break;
 		}
 		return httpCommand;

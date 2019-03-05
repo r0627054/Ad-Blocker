@@ -6,6 +6,7 @@ import java.net.URISyntaxException;
 import java.net.UnknownHostException;
 
 import client.commands.HTTPCommand;
+import client.commands.HTTPCommandFactory;
 
 public class ClientApp {
 
@@ -17,8 +18,9 @@ public class ClientApp {
 		String uri = args[1];
 		int port = Integer.parseInt(args[2]);
 				
-		HTTPCommand command = new HTTPCommand(uri, port, httpMethod);
-
+		HTTPCommand command = HTTPCommandFactory.getHTTPCommand(httpMethod, uri, port);
+		
+		
 		HTTPClient client = new HTTP11Client();
 		client.handleCommand(command);
 	}
