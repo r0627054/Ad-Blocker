@@ -6,8 +6,9 @@ public class HTTPMessage {
 	private HTTPBody body;
 	
 	
-	public HTTPMessage() {
-		
+	public HTTPMessage(HTTPHeader header, HTTPBody body) {
+		this.setHeader(header);
+		this.setBody(body);
 	}
 	
 	public HTTPHeader getHeader() {

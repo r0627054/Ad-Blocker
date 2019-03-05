@@ -1,4 +1,6 @@
-package client;
+package client.handlers;
+
+import client.HTTPMethod;
 
 public class RequestHandlerFactory {
 

@@ -2,6 +2,10 @@ package client;
 
 import java.net.Socket;
 
+import client.commands.HTTPCommand;
+import client.handlers.RequestHandler;
+import client.handlers.RequestHandlerFactory;
+
 
 public class HTTP11Client extends HTTPClient {
 
@@ -14,7 +18,6 @@ public class HTTP11Client extends HTTPClient {
 		if(this.socket == null) {
 			this.socket = new Socket(command.getHost(), command.getPort());
 		}
-		
 		RequestHandler requestHandler = RequestHandlerFactory.getHandler(command.getHttpmethod());
 		try {
 			requestHandler.handle(command, socket);

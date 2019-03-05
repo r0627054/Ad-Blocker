@@ -5,6 +5,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.UnknownHostException;
 
+import client.commands.HTTPCommand;
+
 public class ClientApp {
 
 	
@@ -14,11 +16,7 @@ public class ClientApp {
 		HTTPMethod httpMethod = HTTPMethod.valueOf(args[0]);		
 		String uri = args[1];
 		int port = Integer.parseInt(args[2]);
-		
-		//We dont use the HTTPVersion, only http/1.1 needs to be implemented
-		//HTTPVersion httpVersion = getHTTPVersion(args[3]);
-		
-		
+				
 		HTTPCommand command = new HTTPCommand(uri, port, httpMethod);
 
 		HTTPClient client = new HTTP11Client();

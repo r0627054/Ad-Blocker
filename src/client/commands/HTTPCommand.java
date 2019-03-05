@@ -1,7 +1,10 @@
-package client;
+package client.commands;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+
+import client.HTTPMethod;
+import client.HTTPVersion;
 
 public class HTTPCommand {
 
@@ -83,8 +86,6 @@ public class HTTPCommand {
 		String result = "";
 		result += "GET " + this.getPath() + " HTTP/1.1" + "\n";
 		result += "Host: " + this.getHost() + "\n\n";
-		
-		
 		return result;
 	}
 	

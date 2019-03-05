@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import client.commands.HTTPCommand;
+
 public abstract class HTTPClient {
 
 	protected Socket socket;
