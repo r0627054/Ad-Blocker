@@ -8,15 +8,23 @@ public class HTTPCommand {
 	private URI uri;
 	private int port;
 	private HTTPMethod httpMethod;
+	private HTTPVersion httpVersion;
 	
+	public HTTPCommand(String uriString, int port, HTTPMethod httpMethod, String httpVersionString) {
+		this.setPort(port);
+		this.setUri(this.createURI(uriString));
+		this.setHttpmethod(httpMethod);
+		this.setHttpVersion(this.createHTTPVersion(httpVersionString));
+	}
 	
 	public HTTPCommand(String uriString, int port, HTTPMethod httpMethod) {
-		this.createURI(uriString);
-		this.setPort(port);
-		this.setHttpmethod(httpMethod);
+		this(uriString,port,httpMethod,HTTPVersion.HTTP11.getVersionCode());
 	}
 
-	private void createURI(String uriString) {
+	public URI createURI(String uriString) {
+		if(uriString == null) {
+			throw new IllegalArgumentException("The uri string cannot be null.");
+		}
 		String u =null;
 		if(uriString.startsWith("http")) {
 			u = uriString;
@@ -24,7 +32,7 @@ public class HTTPCommand {
 			u = "http://" + uriString;
 		}
 		try {
-			this.setUri(new URI(u));
+			return new URI(u);
 		} catch (URISyntaxException e) {
 			throw new IllegalArgumentException("HTTPCommand cannot have an invalid URI.");
 		}
@@ -78,6 +86,29 @@ public class HTTPCommand {
 		
 		
 		return result;
+	}
+	
+	public HTTPVersion getHttpVersion() {
+		return this.httpVersion;
+	}
+	
+	public void setHttpVersion(HTTPVersion httpVersion) {
+		if(httpVersion == null) {
+			throw new IllegalArgumentException("httpVersion cannot be null.");
+		}
+		this.httpVersion = httpVersion;
+	}
+	
+	private HTTPVersion createHTTPVersion(String v) {
+		if(v == null) {
+			throw new IllegalArgumentException("The httpVersion String cannot be null");
+		}
+		for (HTTPVersion version : HTTPVersion.values()) {
+			if(version.getVersionCode().equals(v)) {
+				return version;
+			}
+		}
+		throw new IllegalArgumentException("Invalid HTTP version");
 	}
 	
 

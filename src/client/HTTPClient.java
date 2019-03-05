@@ -8,8 +8,7 @@ public abstract class HTTPClient {
 
 	protected Socket socket;
 	
-	
-	public abstract void handleCommand(HTTPCommand command) throws UnknownHostException, IOException;
+	public abstract void handleCommand(HTTPCommand command) throws Exception;
 
 	public Socket getSocket() {
 		return this.socket;

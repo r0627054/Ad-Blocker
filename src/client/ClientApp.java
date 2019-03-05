@@ -9,26 +9,20 @@ public class ClientApp {
 
 	
 	//input:     GET www.tinyos.net/ 80 HTTP/1.1
-	public static void main(String[] args) throws URISyntaxException, UnknownHostException, IOException {
+	public static void main(String[] args) throws Exception {
 		//all the parameters
 		HTTPMethod httpMethod = HTTPMethod.valueOf(args[0]);		
 		String uri = args[1];
 		int port = Integer.parseInt(args[2]);
-		HTTPVersion httpVersion = getHTTPVersion(args[3]);
 		
-		//create a HTTP Command with the given parameters
+		//We dont use the HTTPVersion, only http/1.1 needs to be implemented
+		//HTTPVersion httpVersion = getHTTPVersion(args[3]);
+		
+		
 		HTTPCommand command = new HTTPCommand(uri, port, httpMethod);
-	
+
 		HTTPClient client = new HTTP11Client();
 		client.handleCommand(command);
 	}
 	
-	private static HTTPVersion getHTTPVersion(String v) {
-		for (HTTPVersion version : HTTPVersion.values()) {
-			if(version.getVersionCode().equals(v)) {
-				return version;
-			}
-		}
-		throw new IllegalArgumentException("Invalid HTTP version");
-	}
 }
