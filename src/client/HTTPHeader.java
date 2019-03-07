@@ -14,7 +14,7 @@ public class HTTPHeader {
 	}
 	
 	private void extractResponseHeaderInformation(String header) {
-		String[] lines = header.split("\n");
+		String[] lines = header.trim().split("\n");
 		for(int i=0; i<lines.length; i++) {
 			if(i == 0) {
 				String[] splitted = lines[i].split(" ");
@@ -23,6 +23,7 @@ public class HTTPHeader {
 				this.setStatusCode(Integer.parseInt(splitted[1]));
 			}else {
 				String[] splitted = lines[i].split(": ");
+				//System.out.println(splitted[1].trim());
 				headerFields.put(splitted[0].trim(), splitted[1].trim());
 			}
 		}
