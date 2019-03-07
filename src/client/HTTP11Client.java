@@ -22,7 +22,8 @@ public class HTTP11Client extends HTTPClient {
 		try {
 			requestHandler.handle(command, socket);
 		} catch (Exception e) {
-			throw new Exception("Couldn't handle the request");
+			//throw new Exception("Couldn't handle the request");
+		e.printStackTrace();
 		}
 
 		this.socket.close();

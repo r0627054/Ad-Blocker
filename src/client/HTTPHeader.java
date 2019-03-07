@@ -59,6 +59,26 @@ public class HTTPHeader {
 		}
 	}
 	
+	public String getHeaderValue(String key) {
+		return headerFields.get(key);
+	}
+	
+	
+	public String getContentSubTypeResponse() {
+		//GENERAL FORMAT:  type/subtype;parameter=value
+		//this method returns the subtype
+		String[] splitted =  getHeaderFields().get("Content-Type").split("/");
+		try {
+			String subtype = splitted[1];
+			if(subtype.contains(";")) {
+				return subtype.split(";")[0];
+			}
+			return subtype;
+		} catch (Exception e) {
+			return "html";
+		}
+	}
+	
 	
 	
 	

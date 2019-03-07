@@ -98,5 +98,15 @@ public abstract class HTTPCommand {
 		throw new IllegalArgumentException("Invalid HTTP version");
 	}
 	
+	public String getBaseFileName() {
+		int dashIndex = getPath().lastIndexOf('/');
+		int dotIndex = getPath().lastIndexOf('.');
+		if(dashIndex <0 || dotIndex<0 || dotIndex< dashIndex) {
+			return "index";
+		}else {
+			return getPath().substring(dashIndex+1, getPath().lastIndexOf('.'));
+		}
+	}
+	
 
 }
