@@ -45,40 +45,64 @@ public abstract class RequestHandler {
 		return out.toString("UTF-8");
 	}
 	
-	protected byte[] readChunks(InputStream inputStream) throws IOException {
+	protected byte[] readChunks(InputStream inputStream) throws Exception {
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		
+		
+		int lengthOfChunk = this.getLengthOfChunk(inputStream);
+		//collects all the chunk information at stores it in byteArrayOutputStream
+		while(lengthOfChunk != 0) {
+			out.write(this.getBytes(lengthOfChunk, inputStream));
+			readcrlf(inputStream);
+			lengthOfChunk = this.getLengthOfChunk(inputStream);
+		}
+		
+		return out.toByteArray();
+	}
+	
+	
+	protected int getLengthOfChunk(InputStream inputStream) throws Exception { 
+		String hexAmountOfBytes = bytesToString(this.readChunksLine(inputStream));
+		return this.hexaDecimalToInteger(hexAmountOfBytes);
+	}
+	
+	protected byte[] readChunksLine(InputStream inputStream) throws IOException {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		int currentByte;
-		
-		
-		for (int i = 0; i < 10; i++) {
-			currentByte = inputStream.read();
-			System.out.println(currentByte);
-		}
-		//13
-		//10
-		/*while(true) {
+		while(true) {
 			currentByte = inputStream.read();
 			if(currentByte == 13) {
 				inputStream.mark(2);
 				currentByte = inputStream.read();
 				if(currentByte == 10) {
-					//thats the end of a chunk
+					//thats the end of a line
 					break;
 				}
-			
 			}
 			if(currentByte == -1) {
-				//end of the stream
+				//the end of the stream
 				break;
 			}
-			System.out.println(currentByte);
 			out.write(currentByte);
 		}
-		System.out.println("hhhh" +inputStream.read());*/
-		System.out.println(out.toString("UTF-8"));
+		return out.toByteArray();
+	}
 		
-		
-		return null;
+	private int hexaDecimalToInteger(String hex) {
+		if(hex == null || hex.trim().isEmpty()) {
+			return 0;
+		}
+		return Integer.parseInt(hex, 16);
+	}
+	
+	
+	//this function only read CRLF ("\r\n") or 13 10 in bytes
+	private void readcrlf(InputStream inputStream) throws Exception {
+		int r = inputStream.read();
+		int n = inputStream.read();
+		if(r != 13 || n != 10) {
+			throw new Exception("Readed line was not a CRLF");
+		}
 	}
 	
 	
