@@ -10,7 +10,7 @@ import client.HTTPHeader;
 import client.commands.HTTPCommand;
 import files.FileSaver;
 
-public class GetRequestHandler extends RequestHandler {
+public class ClientGetRequestHandler extends ClientRequestHandler {
 
 	@Override
 	public void handle(HTTPCommand command, Socket socket) throws Exception {

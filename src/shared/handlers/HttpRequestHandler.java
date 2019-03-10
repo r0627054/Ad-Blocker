@@ -1,21 +1,23 @@
-package client.handlers;
+package shared.handlers;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import client.commands.HTTPCommand;
+import client.commands.HTTPCommandFactory;
+import httpproperties.HTTPMethod;
 
-public abstract class RequestHandler {
+public class HttpRequestHandler {
 	
-	public abstract void handle(HTTPCommand command, Socket socket)throws Exception;
+	public HttpRequestHandler() {
+		// TODO Auto-generated constructor stub
+	}
 	
-	protected byte[] getBytes(int numberOfBytes, InputStream inputStream) throws IOException {
+	public byte[] getBytes(int numberOfBytes, InputStream inputStream) throws IOException {
 		//used with content-length is given
 		byte[] result =new byte[numberOfBytes];
 		for(int i = 0; i < numberOfBytes; i++) {
@@ -24,12 +26,11 @@ public abstract class RequestHandler {
 		return result;
 	}
 	
-	
-	protected String bytesToString(byte[] bytes) {
+	public String bytesToString(byte[] bytes) {
 		return new String(bytes);
 	}
 		
-	protected String getHeaderString(InputStream inputStream) throws IOException {
+	public String getHeaderString(InputStream inputStream) throws IOException {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		List<Integer> data = new ArrayList<>();
 		int currentByte;
@@ -45,7 +46,15 @@ public abstract class RequestHandler {
 		return out.toString("UTF-8");
 	}
 	
-	protected byte[] readChunks(InputStream inputStream) throws Exception {
+	public HTTPCommand getHttpCommandFromHeader(Socket clientSocket) throws IOException {
+		String[] headerString = this.getHeaderString(clientSocket.getInputStream()).split(" ");
+		HTTPMethod method = HTTPMethod.valueOf(headerString[0]);
+		String uriString = headerString[1];
+		//String httpVersionString = headerString[2];
+		return HTTPCommandFactory.getHTTPCommand(method, uriString, clientSocket.getLocalPort());
+	}
+	
+	public byte[] readChunks(InputStream inputStream) throws Exception {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		
 		
@@ -61,12 +70,12 @@ public abstract class RequestHandler {
 	}
 	
 	
-	protected int getLengthOfChunk(InputStream inputStream) throws Exception { 
+	public int getLengthOfChunk(InputStream inputStream) throws Exception { 
 		String hexAmountOfBytes = bytesToString(this.readChunksLine(inputStream));
 		return this.hexaDecimalToInteger(hexAmountOfBytes);
 	}
 	
-	protected byte[] readChunksLine(InputStream inputStream) throws IOException {
+	public byte[] readChunksLine(InputStream inputStream) throws IOException {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		int currentByte;
 		while(true) {
@@ -104,14 +113,5 @@ public abstract class RequestHandler {
 			throw new Exception("Readed line was not a CRLF");
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
-	/*public Map<String, String> getHeaderParameters(Socket socket){
-		return null;
-	}*/
+
 }

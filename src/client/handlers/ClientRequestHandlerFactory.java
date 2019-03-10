@@ -2,20 +2,20 @@ package client.handlers;
 
 import httpproperties.HTTPMethod;
 
-public class RequestHandlerFactory {
+public class ClientRequestHandlerFactory {
 
-	public static RequestHandler getHandler(HTTPMethod httpMethod) {
+	public static ClientRequestHandler getHandler(HTTPMethod httpMethod) {
 		if(httpMethod == null) {
 			throw new IllegalArgumentException("Cannot create a handler when httpMethod is null.");
 		}
-		RequestHandler requestHandler;
+		ClientRequestHandler requestHandler;
 		switch (httpMethod) {
 		case GET:
-			requestHandler = new GetRequestHandler();
+			requestHandler = new ClientGetRequestHandler();
 			break;
 		//other cases go here
 		default:
-			requestHandler = new GetRequestHandler();
+			requestHandler = new ClientGetRequestHandler();
 			break;
 		}
 		return requestHandler;
