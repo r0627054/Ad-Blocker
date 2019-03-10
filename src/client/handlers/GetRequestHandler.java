@@ -3,11 +3,13 @@ package client.handlers;
 import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.net.Socket;
+import java.net.URI;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import client.HTTPHeader;
 import client.commands.HTTPCommand;
+import client.commands.HTTPGetCommand;
 import files.FileSaver;
 
 public class GetRequestHandler extends RequestHandler {
@@ -28,8 +30,7 @@ public class GetRequestHandler extends RequestHandler {
 		//System.out.println(headerString);
 		
 		//At this moment we support content-length and transfer-encoding: chunked
-		
-		if(header.containsHeader("Content-Length")) {
+		/*if(header.containsHeader("Content-Length")) {
 			//reads the correct amount of bytes and  stores it in a file
 	    	int contentLength = header.getContentLength();
 	    	byte[] content = this.getBytes(contentLength, inputStream);
@@ -43,20 +44,43 @@ public class GetRequestHandler extends RequestHandler {
 	    	this.getOtherResources(command, socket, content, header);
 	    }else {
 	    	System.out.println("Nor Content-Length nor Transfer-Encoding is used in the headers");
-	    }
+	    }*/
+		
+		byte[] contentBytes = handleOneRequest(command, inputStream, header);
+		getOtherResources(command, socket, contentBytes, header);
+		
+		
+		
 	}
+	
+	
+	private byte[] handleOneRequest(HTTPCommand command, InputStream inputStream, HTTPHeader header) throws Exception{
+		byte[] content = null;
+		if(header.containsHeader("Content-Length")) {
+			//reads the correct amount of bytes and  stores it in a file
+	    	int contentLength = header.getContentLength();
+	    	 content = this.getBytes(contentLength, inputStream);
+	    	this.saveFile(content, command.getHost(), command.getBaseFileName(), header.getContentSubTypeResponse());	    	
+	    }else if(header.containsHeader("Transfer-Encoding") && "chunked".equals(header.getHeaderValue("Transfer-Encoding")) ) {
+	    	//reads all the chunks and stores it in a file
+	    	content = this.readChunks(inputStream);
+	    	this.saveFile(content, command.getHost(), command.getBaseFileName(), header.getContentSubTypeResponse());
+	    }else {
+	    	System.out.println("Nor Content-Length nor Transfer-Encoding is used in the headers");
+	    }
+		return content;
+	}
+	
 	
 	public void getOtherResources(HTTPCommand command, Socket socket, byte[] contentBytes, HTTPHeader header) throws Exception {
 		if("html".equals(header.getContentSubTypeResponse())) {
 			String content = this.bytesToString(contentBytes);
-			Pattern p = Pattern.compile("src=\"(.*?)\"");
-			//System.out.println(content);
+			//get all the source patterns out of the file
+			Pattern p = Pattern.compile("<img[^>]*src=[\"']([^\"^']*)", Pattern.CASE_INSENSITIVE);
 		    Matcher m = p.matcher(content);
-		    //System.out.println(content);
 		    while (m.find()) {
 		        System.out.println(m.group(1));
 		    }
-			//System.out.println(content.indexOf("src"));
 		}
 	}
 	
