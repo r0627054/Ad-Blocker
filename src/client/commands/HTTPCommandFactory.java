@@ -13,6 +13,11 @@ public class HTTPCommandFactory {
 		case GET:
 			httpCommand = new HTTPGetCommand(uriString,port);
 			break;
+		case PUT:
+			httpCommand = new HTTPPutCommand(uriString,port);
+			break;
+		case POST:
+			httpCommand = new HTTPPostCommand(uriString, port);
 		//other cases go here
 		default:
 			httpCommand = new HTTPGetCommand(uriString,port);
