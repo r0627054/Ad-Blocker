@@ -28,16 +28,17 @@ public class ServerGetRequestHandler extends ServerRequestHandler {
 	}
 
 	private void respond200(Socket socket, File fileToServe) throws IOException {
-		System.out.println("found");
-		String outString = "HTTP/1.1 200 OK\n\n";
+		System.out.println("found " + fileToServe.getPath().toString());
+		String headerString = "HTTP/1.1 200 OK\n";
 		byte[] filebytes;
 		OutputStream outputStream = socket.getOutputStream();
 		try {
 			filebytes = Files.readAllBytes(fileToServe.toPath());
-			writeDate(outputStream);
-			writeContentType(outputStream, fileToServe.toPath());
-			writeContentLength(outputStream, filebytes.length);
-			outputStream.write(outString.getBytes());
+			headerString += writeDate();
+			headerString += writeContentType(fileToServe.toPath());
+			headerString += writeContentLength(filebytes.length);
+			headerString += "\n";
+			outputStream.write(headerString.getBytes());
 			outputStream.write(filebytes);
 		} catch (AccessDeniedException e) {
 			respond404(socket);
@@ -45,16 +46,14 @@ public class ServerGetRequestHandler extends ServerRequestHandler {
 		outputStream.close();		
 	}
 
-	private void writeContentLength(OutputStream outputStream, int length) throws IOException {
-		String outString = "Content-Length: " + length;
-		System.out.println(outString);
-		outputStream.write(outString.getBytes());
+	private String writeContentLength(int length) throws IOException {
+		return "Content-Length: " + length +"\n";
 		
 	}
 
-	private void writeContentType(OutputStream outputStream, Path path) throws IOException {
-		String outString = "Content-Type: " + getContentTypeFromPath(path);
-		outputStream.write(outString.getBytes());
+	private String writeContentType(Path path) throws IOException {
+		return "Content-Type: " + getContentTypeFromPath(path) + "\n";
+		
 	}
 
 	private String getContentTypeFromPath(Path path) {
@@ -76,9 +75,8 @@ public class ServerGetRequestHandler extends ServerRequestHandler {
 		}
 	}
 
-	private void writeDate(OutputStream outputStream) throws IOException {
-		String outString = "Date: " + java.time.format.DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now(ZoneOffset.UTC));
-		outputStream.write(outString.getBytes());
+	private String writeDate() throws IOException {
+		return "Date: " + java.time.format.DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now(ZoneOffset.UTC)) + "\n";
 	}
 
 	private void respond404(Socket socket) throws IOException {
