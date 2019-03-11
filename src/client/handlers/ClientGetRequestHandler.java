@@ -18,9 +18,9 @@ public class ClientGetRequestHandler extends ClientRequestHandler {
 	public void handle(HTTPCommand command, Socket socket) throws Exception {
 		//request the resource
 			
-		DataOutputStream outStream = new DataOutputStream(socket.getOutputStream());
-		outStream.writeBytes(command.getHeader());
-		outStream.flush();
+		DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
+		outputStream.writeBytes(command.getHeader());
+		outputStream.flush();
 	
 		
 		InputStream inputStream = socket.getInputStream();
@@ -47,7 +47,14 @@ public class ClientGetRequestHandler extends ClientRequestHandler {
 	    }*/
 		
 		byte[] contentBytes = handleOneRequest(command, inputStream, header);
-		getOtherResources(command, socket, contentBytes, header);
+		if("html".equals(header.getContentSubTypeResponse())) {
+			//Print the html file
+			//UNCOMMENT THIS TO DISPLAY THE HTML FILE
+			//System.out.println(new String(contentBytes));
+			getOtherResources(command, inputStream, outputStream, contentBytes, header);
+			
+		}
+		
 		
 		
 		
@@ -72,14 +79,32 @@ public class ClientGetRequestHandler extends ClientRequestHandler {
 	}
 	
 	
-	public void getOtherResources(HTTPCommand command, Socket socket, byte[] contentBytes, HTTPHeader header) throws Exception {
+	public void getOtherResources(HTTPCommand command, InputStream inputStream, DataOutputStream outputStream, byte[] contentBytes, HTTPHeader header) throws Exception {
 		if("html".equals(header.getContentSubTypeResponse())) {
 			String content = this.bytesToString(contentBytes);
 			//get all the source patterns out of the file
 			Pattern p = Pattern.compile("<img[^>]*src=[\"']([^\"^']*)", Pattern.CASE_INSENSITIVE);
 		    Matcher m = p.matcher(content);
-		    while (m.find()) {
-		        System.out.println(m.group(1));
+		    //request all the resoucres
+		    while(m.find()) {
+		    	
+		    	//UPDATE the current command with the new resource
+		    	String newPath = m.group(1);
+		    	if(!newPath.startsWith("/")) {
+		    		newPath = "/" + newPath;
+		    	}
+		    	String newURIString = command.getHost() + newPath;
+		    	command.updateToNewURI(newURIString);
+		    	
+		    	//OUTPUT the the new header
+		    	outputStream.writeBytes(command.getHeader());
+		    	outputStream.flush();
+		    	
+		    	
+		    	// THE STORES ALL THE RESOURCES
+		    	String resourceHeaderString = this.getHeaderString(inputStream);
+				HTTPHeader resourceHeader = new HTTPHeader(resourceHeaderString);
+				this.handleOneRequest(command, inputStream, resourceHeader);
 		    }
 		}
 	}
