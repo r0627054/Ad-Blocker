@@ -1,7 +1,5 @@
 package server.handlers;
 
-import client.handlers.ClientGetRequestHandler;
-import client.handlers.ClientRequestHandler;
 import httpproperties.HTTPMethod;
 
 public class ServerRequestHandlerFactory {

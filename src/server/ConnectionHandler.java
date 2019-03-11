@@ -9,7 +9,9 @@ import java.net.Socket;
 
 import com.sun.org.apache.bcel.internal.generic.NEW;
 
+import client.HTTPHeader;
 import client.commands.HTTPCommand;
+import client.commands.HTTPCommandFactory;
 import client.handlers.ClientRequestHandler;
 import client.handlers.ClientRequestHandlerFactory;
 import httpproperties.HTTPMethod;
@@ -30,7 +32,11 @@ public class ConnectionHandler implements Runnable{
 	@Override
 	public void run() {
 		try {
-			HTTPCommand command = helperHandler.getHttpCommandFromHeader(clientSocket);
+			HTTPRequestHeader header = new HTTPRequestHeader(helperHandler.getHeaderString(clientSocket.getInputStream()));
+			//System.out.println(header.getHeaderFields().toString());
+			HTTPMethod method = HTTPMethod.valueOf(header.getHttpMethod());
+			String uriString = header.getHeaderValue("Host") + header.getHeaderValue("Path");
+			HTTPCommand command = HTTPCommandFactory.getHTTPCommand(method, uriString, clientSocket.getLocalPort());
 			ServerRequestHandler requestHandler = ServerRequestHandlerFactory.getHandler(command.getHttpmethod());
 			requestHandler.handle(command, clientSocket);
 		} catch (Exception e) {

@@ -46,14 +46,6 @@ public class HttpRequestHandler {
 		return out.toString("UTF-8");
 	}
 	
-	public HTTPCommand getHttpCommandFromHeader(Socket clientSocket) throws IOException {
-		String[] headerString = this.getHeaderString(clientSocket.getInputStream()).split(" ");
-		HTTPMethod method = HTTPMethod.valueOf(headerString[0]);
-		String uriString = headerString[1];
-		//String httpVersionString = headerString[2];
-		return HTTPCommandFactory.getHTTPCommand(method, uriString, clientSocket.getLocalPort());
-	}
-	
 	public byte[] readChunks(InputStream inputStream) throws Exception {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		
