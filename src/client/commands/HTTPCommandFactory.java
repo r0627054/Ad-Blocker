@@ -18,6 +18,7 @@ public class HTTPCommandFactory {
 			break;
 		case POST:
 			httpCommand = new HTTPPostCommand(uriString, port);
+			break;
 		//other cases go here
 		default:
 			httpCommand = new HTTPGetCommand(uriString,port);

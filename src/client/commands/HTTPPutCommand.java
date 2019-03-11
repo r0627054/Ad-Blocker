@@ -21,8 +21,10 @@ public class HTTPPutCommand extends HTTPCommand {
 
 	@Override
 	public String getHeader() {
-		// TODO Auto-generated method stub
-		return null;
+		String result = "";
+		result += "PUT " + this.getPath() + " HTTP/1.1" + "\n";
+		result += "Host: " + this.getHost() + "\n\n";
+		return result;
 	}
 
 }

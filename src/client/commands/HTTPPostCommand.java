@@ -20,8 +20,20 @@ public class HTTPPostCommand extends HTTPCommand {
 
 	@Override
 	public String getHeader() {
-		// TODO Auto-generated method stub
-		return null;
+		String result = "";
+		result += "POST " + this.getPath() + " HTTP/1.1" + "\n";
+		result += "Host: " + this.getHost() + "\n\n";
+		return result;
+	}
+	
+	
+	public String getFullHeader(String contentType, int contentLength) {
+		String result = "";
+		result += "POST " + this.getPath() + " HTTP/1.1" + "\n";
+		result += "Host: " + this.getHost() + "\n";
+		result += "Content-Type: " + contentType + "\n" ;
+		result += "Content-Length: " + Integer.toString(contentLength) + "\n\n";
+		return result;
 	}
 
 }
