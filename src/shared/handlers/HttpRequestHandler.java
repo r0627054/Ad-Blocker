@@ -3,7 +3,11 @@ package shared.handlers;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.Socket;
+import java.nio.file.Path;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -104,6 +108,56 @@ public class HttpRequestHandler {
 		if(r != 13 || n != 10) {
 			throw new Exception("Readed line was not a CRLF");
 		}
+	}
+	
+	protected String writeContentLength(int length) throws IOException {
+		return "Content-Length: " + length +"\n";
+		
+	}
+
+	protected String writeContentType(Path path) throws IOException {
+		return "Content-Type: " + getContentTypeFromPath(path) + "\n";
+		
+	}
+
+	private String getContentTypeFromPath(Path path) {
+		String extension = "";
+		String fileName = path.getFileName().toString();
+		int i = fileName.lastIndexOf('.');
+		if (i > 0) {
+		    extension = fileName.substring(i+1);
+		}
+		switch (extension) {
+		case "html":
+			return "text/html";
+		case "png":
+			return "image/png";
+		case "jpg":
+			return "image/jpg";
+		default:
+			return "text/plain";
+		}
+	}
+
+	protected String writeDate() throws IOException {
+		return "Date: " + java.time.format.DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now(ZoneOffset.UTC)) + "\n";
+	}
+
+	public void respond404(Socket socket) throws IOException {
+		System.out.println("not found");
+		String outString = "HTTP/1.1 404 Not Found\n\n";
+		OutputStream outputStream = socket.getOutputStream();
+		outputStream.write(outString.getBytes());
+		outputStream.close();
+		
+	}
+	public void respond400(Socket socket) throws IOException {
+		System.out.println("bad request");
+		String outString = "HTTP/1.1 400 Bad Request\n\n";
+		OutputStream outputStream = socket.getOutputStream();
+		outputStream.write(outString.getBytes());
+		outputStream.close();
+		
 	}
 
 }

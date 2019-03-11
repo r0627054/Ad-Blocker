@@ -13,7 +13,12 @@ public class ServerRequestHandlerFactory {
 		case GET:
 			requestHandler = new ServerGetRequestHandler();
 			break;
-		//other cases go here
+		case POST:
+			requestHandler = new ServerPostRequestHandler();
+			break;
+		case PUT:
+			requestHandler = new ServerPutRequestHandler();
+			break;
 		default:
 			requestHandler = new ServerGetRequestHandler();
 			break;
