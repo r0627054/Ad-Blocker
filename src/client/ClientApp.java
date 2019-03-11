@@ -13,6 +13,7 @@ public class ClientApp {
 
 	
 	//input:     GET www.tinyos.net/ 80 HTTP/1.1
+	//nice example to download images: GET http://www.tutorialspoint.com/html/html_images.htm 80 HTTP/1.1
 	public static void main(String[] args) throws Exception {
 		//all the parameters
 		HTTPMethod httpMethod = HTTPMethod.valueOf(args[0]);		
