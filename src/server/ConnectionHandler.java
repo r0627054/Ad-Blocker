@@ -7,9 +7,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
 
-import com.sun.org.apache.bcel.internal.generic.NEW;
-
-import client.HTTPHeader;
 import client.commands.HTTPCommand;
 import client.commands.HTTPCommandFactory;
 import client.handlers.ClientRequestHandler;

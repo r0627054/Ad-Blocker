@@ -39,6 +39,10 @@ public abstract class HTTPCommand {
 		}
 	}
 	
+	public void updateToNewURI(String uriString) {
+		this.setUri(this.createURI(uriString));
+	}
+	
 	public String getHost() {
 		return uri.getHost();
 	}
