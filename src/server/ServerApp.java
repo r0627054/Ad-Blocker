@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 
 public class ServerApp {
-	private static final int PORT = 9000;
+	private static final int PORT = 80;
 	private static ServerSocket serverSocket;
 	private static ConnectionHandler connectionHandler;
 	private static Thread thread;
