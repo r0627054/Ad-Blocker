@@ -42,7 +42,7 @@ public class ConnectionHandler implements Runnable{
 			HTTPCommand command = HTTPCommandFactory.getHTTPCommand(method, uriString, clientSocket.getLocalPort());
 			
 			ServerRequestHandler requestHandler = ServerRequestHandlerFactory.getHandler(command.getHttpmethod());
-			requestHandler.handle(command, body, clientSocket);
+			requestHandler.handle(command, body, header, clientSocket);
 			
 		} catch (Exception e) {
 			try {

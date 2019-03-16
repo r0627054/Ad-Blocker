@@ -9,11 +9,12 @@ import java.net.Socket;
 import java.sql.Time;
 
 import client.commands.HTTPCommand;
+import server.HTTPRequestHeader;
 
 public class ServerPutRequestHandler extends ServerRequestHandler {
 
 	@Override
-	public void handle(HTTPCommand command, byte[] body, Socket socket) throws Exception {
+	public void handle(HTTPCommand command, byte[] body,HTTPRequestHeader header, Socket socket) throws Exception {
 		if(body == null || body.length==0) {
 			respond400(socket);
 		}
