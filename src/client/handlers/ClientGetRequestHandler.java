@@ -27,6 +27,7 @@ public class ClientGetRequestHandler extends ClientRequestHandler {
 	
 		
 		InputStream inputStream = socket.getInputStream();
+		//the server does not respond
 		String headerString = this.getHeaderString(inputStream);
 		HTTPHeader header = new HTTPHeader(headerString);
 
@@ -68,8 +69,6 @@ public class ClientGetRequestHandler extends ClientRequestHandler {
 		    	//OUTPUT the the new header
 		    	outputStream.writeBytes(command.getHeader());
 		    	outputStream.flush();
-		    	
-		    	
 		    	// THE STORES ALL THE RESOURCES
 		    	String resourceHeaderString = this.getHeaderString(inputStream);
 				HTTPHeader resourceHeader = new HTTPHeader(resourceHeaderString);
