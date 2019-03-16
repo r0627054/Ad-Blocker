@@ -11,8 +11,10 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import client.HTTPHeader;
 import client.commands.HTTPCommand;
 import client.commands.HTTPCommandFactory;
+import files.FileSaver;
 import httpproperties.HTTPMethod;
 
 public class HttpRequestHandler {
@@ -65,6 +67,31 @@ public class HttpRequestHandler {
 		return out.toByteArray();
 	}
 	
+
+	protected byte[] handleOneRequest(HTTPCommand command, InputStream inputStream, HTTPHeader header, boolean save) throws Exception{
+		byte[] content = null;
+		if(header.containsHeader("Content-Length")) {
+			//reads the correct amount of bytes and  stores it in a file
+	    	int contentLength = header.getContentLength();
+	    	 content = this.getBytes(contentLength, inputStream);
+	    	 if(save) {
+	    		 this.saveFile(content, command.getHost(), command.getBaseFileName(), header.getContentSubTypeResponse());
+	    	 }    	
+	    }else if(header.containsHeader("Transfer-Encoding") && "chunked".equals(header.getHeaderValue("Transfer-Encoding")) ) {
+	    	//reads all the chunks and stores it in a file
+	    	content = this.readChunks(inputStream);
+	    	if(save) {
+	    		this.saveFile(content, command.getHost(), command.getBaseFileName(), header.getContentSubTypeResponse());
+	    	}
+	    }else {
+	    	System.out.println("Nor Content-Length nor Transfer-Encoding is used in the headers");
+	    }
+		return content;
+	}
+	
+	public void saveFile(byte[] content, String host, String filename, String filetype) {
+		new FileSaver( content,  host, filename, filetype);
+	}
 	
 	public int getLengthOfChunk(InputStream inputStream) throws Exception { 
 		String hexAmountOfBytes = bytesToString(this.readChunksLine(inputStream));

@@ -19,6 +19,9 @@ public class HTTPCommandFactory {
 		case POST:
 			httpCommand = new HTTPPostCommand(uriString, port);
 			break;
+		case HEAD:
+			httpCommand = new HTTPHeadCommand(uriString, port);
+			break;
 		//other cases go here
 		default:
 			httpCommand = new HTTPGetCommand(uriString,port);

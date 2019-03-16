@@ -19,7 +19,7 @@ public class HTTPHeader {
 			if(i == 0) {
 				String[] splitted = lines[i].split(" ");
 				//Status-Line = HTTP-Version SP Status-Code SP Reason-Phrase CRLF
-				//The status-code is extracted from the header
+				//The status-code is extracted from the header		
 				this.setStatusCode(Integer.parseInt(splitted[1]));
 			}else {
 				String[] splitted = lines[i].split(": ");

@@ -18,6 +18,10 @@ public class ClientRequestHandlerFactory {
 			break;
 		case PUT:
 			requestHandler = new ClientPutRequestHandler();
+			break;
+		case HEAD:
+			requestHandler = new ClientHeadRequestHandler();
+			break;
 		//other cases go here
 		default:
 			requestHandler = new ClientGetRequestHandler();

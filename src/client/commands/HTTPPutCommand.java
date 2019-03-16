@@ -2,6 +2,11 @@ package client.commands;
 
 import httpproperties.HTTPMethod;
 
+/**
+ * The HTTP PUT request method creates a new resource or
+ *  replaces a representation of the target resource with the request payload.
+ *
+ */
 public class HTTPPutCommand extends HTTPCommand {
 
 	
@@ -11,7 +16,6 @@ public class HTTPPutCommand extends HTTPCommand {
 	
 	public HTTPPutCommand(String uriString, int port) {
 		super(uriString, port);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -24,6 +28,15 @@ public class HTTPPutCommand extends HTTPCommand {
 		String result = "";
 		result += "PUT " + this.getPath() + " HTTP/1.1" + "\n";
 		result += "Host: " + this.getHost() + "\n\n";
+		return result;
+	}
+	
+	public String getFullHeader(String contentType, int contentLength) {
+		String result = "";
+		result += "PUT " + this.getPath() + " HTTP/1.1" + "\n";
+		result += "Host: " + this.getHost() + "\n";
+		result += "Content-Type: " + contentType + "\n" ;
+		result += "Content-Length: " + Integer.toString(contentLength) + "\n\n";
 		return result;
 	}
 

@@ -28,25 +28,8 @@ public class ClientGetRequestHandler extends ClientRequestHandler {
 		HTTPHeader header = new HTTPHeader(headerString);
 		//sysout the header
 		//System.out.println(headerString);
-		
-		//At this moment we support content-length and transfer-encoding: chunked
-		/*if(header.containsHeader("Content-Length")) {
-			//reads the correct amount of bytes and  stores it in a file
-	    	int contentLength = header.getContentLength();
-	    	byte[] content = this.getBytes(contentLength, inputStream);
-	    	this.saveFile(content, command.getHost(), command.getBaseFileName(), header.getContentSubTypeResponse());
-	    	this.getOtherResources(command, socket, content, header);
-	    	
-	    }else if(header.containsHeader("Transfer-Encoding") && "chunked".equals(header.getHeaderValue("Transfer-Encoding")) ) {
-	    	//reads all the chunks and stores it in a file
-	    	byte[] content = this.readChunks(inputStream);
-	    	this.saveFile(content, command.getHost(), command.getBaseFileName(), header.getContentSubTypeResponse());
-	    	this.getOtherResources(command, socket, content, header);
-	    }else {
-	    	System.out.println("Nor Content-Length nor Transfer-Encoding is used in the headers");
-	    }*/
-		
-		byte[] contentBytes = handleOneRequest(command, inputStream, header);
+				
+		byte[] contentBytes = handleOneRequest(command, inputStream, header,true);
 		if("html".equals(header.getContentSubTypeResponse())) {
 			//Print the html file
 			//UNCOMMENT THIS TO DISPLAY THE HTML FILE
@@ -54,31 +37,8 @@ public class ClientGetRequestHandler extends ClientRequestHandler {
 			getOtherResources(command, inputStream, outputStream, contentBytes, header);
 			
 		}
-		
-		
-		
-		
 	}
-	
-	
-	private byte[] handleOneRequest(HTTPCommand command, InputStream inputStream, HTTPHeader header) throws Exception{
-		byte[] content = null;
-		if(header.containsHeader("Content-Length")) {
-			//reads the correct amount of bytes and  stores it in a file
-	    	int contentLength = header.getContentLength();
-	    	 content = this.getBytes(contentLength, inputStream);
-	    	this.saveFile(content, command.getHost(), command.getBaseFileName(), header.getContentSubTypeResponse());	    	
-	    }else if(header.containsHeader("Transfer-Encoding") && "chunked".equals(header.getHeaderValue("Transfer-Encoding")) ) {
-	    	//reads all the chunks and stores it in a file
-	    	content = this.readChunks(inputStream);
-	    	this.saveFile(content, command.getHost(), command.getBaseFileName(), header.getContentSubTypeResponse());
-	    }else {
-	    	System.out.println("Nor Content-Length nor Transfer-Encoding is used in the headers");
-	    }
-		return content;
-	}
-	
-	
+		
 	public void getOtherResources(HTTPCommand command, InputStream inputStream, DataOutputStream outputStream, byte[] contentBytes, HTTPHeader header) throws Exception {
 		if("html".equals(header.getContentSubTypeResponse())) {
 			String content = this.bytesToString(contentBytes);
@@ -104,16 +64,14 @@ public class ClientGetRequestHandler extends ClientRequestHandler {
 		    	// THE STORES ALL THE RESOURCES
 		    	String resourceHeaderString = this.getHeaderString(inputStream);
 				HTTPHeader resourceHeader = new HTTPHeader(resourceHeaderString);
-				this.handleOneRequest(command, inputStream, resourceHeader);
+				this.handleOneRequest(command, inputStream, resourceHeader,true);
 		    }
 		}
 	}
 	
 	
 	
-	public void saveFile(byte[] content, String host, String filename, String filetype) {
-		new FileSaver( content,  host, filename, filetype);
-	}
+	
 	
 	
 	

@@ -26,6 +26,7 @@ public class HTTP11Client extends HTTPClient {
 		e.printStackTrace();
 		}
 
+		//socket is closed
 		this.socket.close();
 		}
 
