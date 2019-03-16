@@ -4,9 +4,12 @@ import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.net.Socket;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import adblocker.AdBlocker;
 import client.HTTPHeader;
 import client.commands.HTTPCommand;
 import client.commands.HTTPGetCommand;
@@ -26,22 +29,28 @@ public class ClientGetRequestHandler extends ClientRequestHandler {
 		InputStream inputStream = socket.getInputStream();
 		String headerString = this.getHeaderString(inputStream);
 		HTTPHeader header = new HTTPHeader(headerString);
-		//sysout the header
-		//System.out.println(headerString);
+
 				
 		byte[] contentBytes = handleOneRequest(command, inputStream, header,true);
 		if("html".equals(header.getContentSubTypeResponse())) {
-			//Print the html file
-			//UNCOMMENT THIS TO DISPLAY THE HTML FILE
-			//System.out.println(new String(contentBytes));
-			getOtherResources(command, inputStream, outputStream, contentBytes, header);
+			//raw content html
+			String rawContent = this.bytesToString(contentBytes);
 			
+			//add block the html
+			List<String> adBlockKeyWords = new ArrayList<>();
+			//removes all the images containg ad
+			adBlockKeyWords.add("ad");
+			AdBlocker adBlocker = new AdBlocker(rawContent, adBlockKeyWords);
+			adBlocker.removeAdImages();
+			String blockedHtml = adBlocker.getHtml();
+			
+			System.out.println(blockedHtml);
+			
+			getOtherResources(command, inputStream, outputStream, blockedHtml, header);
 		}
 	}
 		
-	public void getOtherResources(HTTPCommand command, InputStream inputStream, DataOutputStream outputStream, byte[] contentBytes, HTTPHeader header) throws Exception {
-		if("html".equals(header.getContentSubTypeResponse())) {
-			String content = this.bytesToString(contentBytes);
+	public void getOtherResources(HTTPCommand command, InputStream inputStream, DataOutputStream outputStream, String content, HTTPHeader header) throws Exception {
 			//get all the source patterns out of the file
 			Pattern p = Pattern.compile("<img[^>]*src=[\"']([^\"^']*)", Pattern.CASE_INSENSITIVE);
 		    Matcher m = p.matcher(content);
@@ -66,7 +75,6 @@ public class ClientGetRequestHandler extends ClientRequestHandler {
 				HTTPHeader resourceHeader = new HTTPHeader(resourceHeaderString);
 				this.handleOneRequest(command, inputStream, resourceHeader,true);
 		    }
-		}
 	}
 	
 	
