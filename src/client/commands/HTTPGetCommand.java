@@ -21,7 +21,7 @@ public class HTTPGetCommand extends HTTPCommand {
 	public String getHeader() {
 		String result = "";
 		result += "GET " + this.getPath() + " HTTP/1.1" + "\n";
-		result += "Host: " + this.getHost() + "\n\n";
+		result += "Host: " + this.getHost() + "\r\n\r\n";
 		return result;
 	}
 
