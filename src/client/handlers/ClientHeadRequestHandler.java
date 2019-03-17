@@ -32,6 +32,8 @@ public class ClientHeadRequestHandler extends ClientRequestHandler {
 		
 		InputStream inputStream = socket.getInputStream();
 		String headerString = this.getHeaderString(inputStream);
+		
+		//SYSOUT the header received form the HEAD command
 		System.out.println(headerString);
 	}
 

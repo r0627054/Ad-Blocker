@@ -56,7 +56,7 @@ public class ClientPutRequestHandler extends ClientRequestHandler {
 		HTTPHeader responseHeader = new HTTPHeader(responseHeaderString);
 		byte[] responseContentBytes = handleOneRequest(command, inputStream, responseHeader,false);
 		
-		//Prints the full response
+		//SYSOUT the put, full response
 		System.out.println(responseHeaderString);
 		System.out.println(new String(responseContentBytes));
 	}
