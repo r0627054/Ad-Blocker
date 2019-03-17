@@ -10,8 +10,27 @@ import client.HTTPHeader;
 import client.commands.HTTPCommand;
 import client.commands.HTTPPostCommand;
 
+/**
+ * The ClientPostRequestHandler is a subclass of the Client Request handler.
+ *  It is made for handling the POST request at client side.
+ *  
+ *  The HTTP POST method sends data to the server.
+ *  The type of the body of the request is indicated by the Content-Type header.
+ *  
+ */
 public class ClientPostRequestHandler extends ClientRequestHandler {
 
+	/**
+	 * The handle method sends a HTTP Post request using the socket.
+	 *  Requests the POST command message, using a JOptionPane.
+	 *  And show the response in the console.
+	 * 
+	 * @param command
+	 *        | the Http command which needs to be handled
+	 * @param socket
+	 *        | the socket used to handle the command
+	 * @throws Exception
+	 */
 	@Override
 	public void handle(HTTPCommand command, Socket socket) throws Exception {
 		//show an input dialog

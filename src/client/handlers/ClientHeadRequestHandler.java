@@ -11,12 +11,19 @@ import client.commands.HTTPCommand;
  *   would be requested with an HTTP GET method.
  * Such a request can be done before deciding to download a large resource to save
  *   bandwidth, for example.
- * 
- * @author Dries Janse
- *
  */
 public class ClientHeadRequestHandler extends ClientRequestHandler {
 
+	/**
+	 * The handle method sends a HTTP HEAD request using the socket.
+	 *  It prints out the received headerString
+	 * 
+	 * @param command
+	 *        | the Http command which needs to be handled
+	 * @param socket
+	 *        | the socket used to handle the command
+	 * @throws Exception
+	 */
 	@Override
 	public void handle(HTTPCommand command, Socket socket) throws Exception {
 		DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());

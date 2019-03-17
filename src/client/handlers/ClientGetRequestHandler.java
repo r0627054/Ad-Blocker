@@ -15,12 +15,26 @@ import client.commands.HTTPCommand;
 import client.commands.HTTPGetCommand;
 import files.FileSaver;
 
+/**
+ * The ClientGetRequestHandler is a subclass of the Client Request handler.
+ *  It is made for handling the GET request at client side.
+ *
+ */
 public class ClientGetRequestHandler extends ClientRequestHandler {
 
+	/**
+	 * The handle method sends a HTTP GET request using the socket.
+	 *  If the requested resource is a HTML file, it filters out the advertisements and looks if there are images which can be downloaded.
+	 * 
+	 * @param command
+	 *        | the Http command which needs to be handled
+	 * @param socket
+	 *        | the socket used to handle the command
+	 * @throws Exception
+	 */
 	@Override
 	public void handle(HTTPCommand command, Socket socket) throws Exception {
 		//request the resource
-			
 		DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
 		outputStream.writeBytes(command.getHeader());
 		outputStream.flush();
@@ -51,11 +65,27 @@ public class ClientGetRequestHandler extends ClientRequestHandler {
 		}
 	}
 		
+	/**
+	 * Requests the Other resources specified in the html file.
+	 *  Currently it only supports images to be dowloaded.
+	 * 
+	 * @param command
+	 *        | the original HTTPCommand
+	 * @param inputStream
+	 *        | the inputStream of the request
+	 * @param outputStream
+	 *        | the outputStream of the request
+	 * @param content
+	 *        | the content of the html file with already filtered out the images
+	 * @param header
+	 *        | the header of the original command.
+	 * @throws Exception
+	 */
 	public void getOtherResources(HTTPCommand command, InputStream inputStream, DataOutputStream outputStream, String content, HTTPHeader header) throws Exception {
 			//get all the source patterns out of the file
 			Pattern p = Pattern.compile("<img[^>]*src=[\"']([^\"^']*)", Pattern.CASE_INSENSITIVE);
 		    Matcher m = p.matcher(content);
-		    //request all the resoucres
+		    //request all the resources
 		    while(m.find()) {
 		    	
 		    	//UPDATE the current command with the new resource
@@ -75,13 +105,4 @@ public class ClientGetRequestHandler extends ClientRequestHandler {
 				this.handleOneRequest(command, inputStream, resourceHeader,true);
 		    }
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-
 }

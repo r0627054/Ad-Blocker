@@ -2,6 +2,12 @@ package client.handlers;
 
 import httpproperties.HTTPMethod;
 
+/**
+ * ClientRequestHandlerFactory is a class which uses the factory design pattern.
+ * It creates the corresponding ClientRequestHandler using the accompanied httpMethod.
+ *   The requestHandler is initiated.
+ *
+ */
 public class ClientRequestHandlerFactory {
 
 	public static ClientRequestHandler getHandler(HTTPMethod httpMethod) {
