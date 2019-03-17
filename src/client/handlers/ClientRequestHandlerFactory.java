@@ -10,6 +10,11 @@ import httpproperties.HTTPMethod;
  */
 public class ClientRequestHandlerFactory {
 
+	/**
+	 * Returns a ClientRequestHandler which matches the given httpMethod.
+	 * @param httpMethod
+	 *        | the httpMethod used in the incoming request.
+	 */
 	public static ClientRequestHandler getHandler(HTTPMethod httpMethod) {
 		if(httpMethod == null) {
 			throw new IllegalArgumentException("Cannot create a handler when httpMethod is null.");

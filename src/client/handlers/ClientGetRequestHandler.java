@@ -43,6 +43,7 @@ public class ClientGetRequestHandler extends ClientRequestHandler {
 		InputStream inputStream = socket.getInputStream();
 		//the server does not respond
 		String headerString = this.getHeaderString(inputStream);
+		//System.out.println(headerString);
 		HTTPHeader header = new HTTPHeader(headerString);
 
 				

@@ -54,7 +54,7 @@ public class ServerGetRequestHandler extends ServerRequestHandler {
 			headerString += writeDate();
 			headerString += writeContentType(fileToServe.toPath());
 			headerString += writeContentLength(filebytes.length);
-			headerString += "\n";
+			headerString += "\r\n\r\n";
 			outputStream.write(headerString.getBytes());
 			outputStream.write(filebytes);
 		} catch (AccessDeniedException e) {
