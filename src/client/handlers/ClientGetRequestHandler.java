@@ -49,7 +49,7 @@ public class ClientGetRequestHandler extends ClientRequestHandler {
 				
 		
 		if("html".equals(header.getContentSubTypeResponse())) {
-			byte[] contentBytes = handleOneRequest(command, inputStream, header,false);
+			byte[] contentBytes = handleOneRequest(command, inputStream, header,true);
 			
 			//raw content html
 			String rawContent = this.bytesToString(contentBytes);

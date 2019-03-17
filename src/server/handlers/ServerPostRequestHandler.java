@@ -18,12 +18,12 @@ public class ServerPostRequestHandler extends ServerRequestHandler {
 	@Override
 	public void handle(HTTPCommand command, byte[] body,HTTPRequestHeader header, Socket socket) throws Exception {
 		if(body == null || body.length==0) {
-			respond400(socket);
+			respond200(socket, "".getBytes());
+			//respond400(socket);
 		}
 		else {
 			respond200(socket, body);
 		}
-
 	}
 
 	private void respond200(Socket socket, byte[] body) throws IOException {
