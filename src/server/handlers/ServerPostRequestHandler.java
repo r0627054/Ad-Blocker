@@ -30,8 +30,9 @@ public class ServerPostRequestHandler extends ServerRequestHandler {
 		String bodyString = bytesToString(body);
 		saveBodyToFile(socket.getInetAddress().toString(), bodyString);
 		String headerString = "HTTP/1.1 200 OK\n";
-		headerString += writeDate();
-		headerString += "\n";
+		headerString += writeDate() +"\n";
+		headerString += writeContentLength(0);
+		headerString +=  "\r\n\r\n";
 		OutputStream outputStream = socket.getOutputStream();
 		outputStream.write(headerString.getBytes());
 		//outputStream.close();

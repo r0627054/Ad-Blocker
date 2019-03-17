@@ -27,10 +27,14 @@ public class ServerPutRequestHandler extends ServerRequestHandler {
 	private void respond200(Socket socket, byte[] body) throws IOException {
 		String bodyString = bytesToString(body);
 		saveBodyToFile(socket.getInetAddress().toString(), bodyString);
-		String headerString = "HTTP/1.1 200 OK\n";
+		/*String headerString = "HTTP/1.1 200 OK\n";
 		headerString += writeDate();
-		headerString += "\n";
+		headerString += "\n";*/
 		OutputStream outputStream = socket.getOutputStream();
+		String headerString = "HTTP/1.1 200 OK\n";
+		headerString += writeDate() +"\n";
+		headerString += writeContentLength(0);
+		headerString +=  "\r\n\r\n";
 		outputStream.write(headerString.getBytes());
 		//outputStream.close();
 	}
