@@ -24,6 +24,7 @@ public class HTTPHeader {
 	/**
 	 * Initialise a HTTP header with a header in String format.
 	 * @param header
+	 *        | the header in string format
 	 */
 	public HTTPHeader(String header) {
 		this.extractResponseHeaderInformation(header);

@@ -3,6 +3,9 @@ package lecture.example;
 import java.io.*;
 import java.net.*;
 
+/**
+ * This is an example given, in the slides of during the lecture.
+ */
 public class TCPClient {
 
 	

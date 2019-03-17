@@ -1,31 +1,46 @@
 package server;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.Socket;
 
 import client.commands.HTTPCommand;
 import client.commands.HTTPCommandFactory;
-import client.handlers.ClientRequestHandler;
-import client.handlers.ClientRequestHandlerFactory;
 import httpproperties.HTTPMethod;
 import server.handlers.ServerRequestHandler;
 import server.handlers.ServerRequestHandlerFactory;
 import shared.handlers.HttpRequestHandler;
 
+/**
+ * The connectionHandler handles one unique connection.
+ *  
+ */
 public class ConnectionHandler implements Runnable{
-	private Socket clientSocket;
-	HttpRequestHandler helperHandler;
 	
+	/**
+	 *  The clientSocket used in the connection with the client.
+	 */
+	private Socket clientSocket;
+	
+	/**
+	 * The HttpRequestHandler, which will handle the actual incoming request.
+	 */
+	private HttpRequestHandler helperHandler;
+	
+	/**
+	 * Initialise a ConnectionHandler with the given clientSocket.
+	 * 
+	 * @param clientSocket
+	 *        | the socket which know everything about the client.
+	 */
 	public ConnectionHandler(Socket clientSocket) {
 		this.clientSocket = clientSocket;
 		this.helperHandler = new HttpRequestHandler();
 	}
 	
-	
+	/**
+	 * The run method is called when the thread is created.
+	 * It reads the header of the client and creates the matching serverRequestHandler; which will handle the the actual http request.
+	 */
 	@Override
 	public void run() {
 		try {
