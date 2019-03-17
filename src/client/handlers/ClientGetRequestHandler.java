@@ -43,11 +43,12 @@ public class ClientGetRequestHandler extends ClientRequestHandler {
 		InputStream inputStream = socket.getInputStream();
 		//the server does not respond
 		String headerString = this.getHeaderString(inputStream);
-		//System.out.println(headerString);
+		
+		//SYSOUT the headerstring
+		System.out.println(headerString);
 		HTTPHeader header = new HTTPHeader(headerString);
 
 				
-		
 		if("html".equals(header.getContentSubTypeResponse())) {
 			byte[] contentBytes = handleOneRequest(command, inputStream, header,true);
 			
@@ -62,11 +63,14 @@ public class ClientGetRequestHandler extends ClientRequestHandler {
 			adBlocker.removeAdImages();
 			String blockedHtml = adBlocker.getHtml();
 			
+			//SYSOUT the filtered html
 			System.out.println(blockedHtml);
 			
 			getOtherResources(command, inputStream, outputStream, socket, blockedHtml, header);
 		}else {
 			byte[] contentBytes = handleOneRequest(command, inputStream, header,true);
+			//SYSOUT the other content which is not html
+			System.out.println(this.bytesToString(contentBytes));
 		}
 	}
 		
@@ -107,8 +111,16 @@ public class ClientGetRequestHandler extends ClientRequestHandler {
 		    	
 		    	// THE STORES ALL THE RESOURCES
 		    	String resourceHeaderString = this.getHeaderString(inputStream);
+		    	
+		    	//SYSOUT the resource response header found on the html page
+		    	System.out.println(resourceHeaderString);
+		    	
 				HTTPHeader resourceHeader = new HTTPHeader(resourceHeaderString);
-				this.handleOneRequest(command, inputStream, resourceHeader,true);
+				 byte[] contentOffResource = this.handleOneRequest(command, inputStream, resourceHeader,true);
+				 
+				 //SYSOUT the resource response body
+				 System.out.println(this.bytesToString(contentOffResource));
+				 
 		    }
 	}
 }
