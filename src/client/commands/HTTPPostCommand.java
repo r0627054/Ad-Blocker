@@ -49,7 +49,7 @@ public class HTTPPostCommand extends HTTPCommand {
 	public String getHeader() {
 		String result = "";
 		result += "POST " + this.getPath() + " HTTP/1.1" + "\n";
-		result += "Host: " + this.getHost() + "\n\n";
+		result += "Host: " + this.getHost() + "\r\n\r\n";
 		return result;
 	}
 	
@@ -68,7 +68,7 @@ public class HTTPPostCommand extends HTTPCommand {
 		result += "POST " + this.getPath() + " HTTP/1.1" + "\n";
 		result += "Host: " + this.getHost() + "\n";
 		result += "Content-Type: " + contentType + "\n" ;
-		result += "Content-Length: " + Integer.toString(contentLength) + "\n\n";
+		result += "Content-Length: " + Integer.toString(contentLength) + "\r\n\r\n";
 		return result;
 	}
 
