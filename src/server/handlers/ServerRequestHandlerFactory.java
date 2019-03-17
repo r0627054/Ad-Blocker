@@ -30,6 +30,9 @@ public class ServerRequestHandlerFactory {
 		case PUT:
 			requestHandler = new ServerPutRequestHandler();
 			break;
+		case HEAD:
+			requestHandler = new ServerHeadRequestHandler();
+			break;
 		default:
 			requestHandler = new ServerGetRequestHandler();
 			break;
