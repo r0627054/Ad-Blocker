@@ -64,7 +64,7 @@ public class ClientGetRequestHandler extends ClientRequestHandler {
 			
 			System.out.println(blockedHtml);
 			
-			getOtherResources(command, inputStream, outputStream, blockedHtml, header);
+			getOtherResources(command, inputStream, outputStream, socket, blockedHtml, header);
 		}else {
 			byte[] contentBytes = handleOneRequest(command, inputStream, header,true);
 		}
@@ -86,13 +86,12 @@ public class ClientGetRequestHandler extends ClientRequestHandler {
 	 *        | the header of the original command.
 	 * @throws Exception
 	 */
-	public void getOtherResources(HTTPCommand command, InputStream inputStream, DataOutputStream outputStream, String content, HTTPHeader header) throws Exception {
+	public void getOtherResources(HTTPCommand command, InputStream inputStream, DataOutputStream outputStream, Socket socket, String content, HTTPHeader header) throws Exception {
 			//get all the source patterns out of the file
 			Pattern p = Pattern.compile("<img[^>]*src=[\"']([^\"^']*)", Pattern.CASE_INSENSITIVE);
 		    Matcher m = p.matcher(content);
 		    //request all the resources
 		    while(m.find()) {
-		    	
 		    	//UPDATE the current command with the new resource
 		    	String newPath = m.group(1);
 		    	if(!newPath.startsWith("/")) {
@@ -104,6 +103,8 @@ public class ClientGetRequestHandler extends ClientRequestHandler {
 		    	//OUTPUT the the new header
 		    	outputStream.writeBytes(command.getHeader());
 		    	outputStream.flush();
+		    	
+		    	
 		    	// THE STORES ALL THE RESOURCES
 		    	String resourceHeaderString = this.getHeaderString(inputStream);
 				HTTPHeader resourceHeader = new HTTPHeader(resourceHeaderString);

@@ -35,7 +35,7 @@ public class HTTPRequestHeader{
 		for(int i=0; i<lines.length; i++) {
 			if(i == 0) {
 				String[] splitted = lines[i].split(" ");
-				System.out.println(splitted.length);
+				//System.out.println(splitted.length);
 				headerFields.put("Method", splitted[0]);
 				headerFields.put("Path", splitted[1]);
 				headerFields.put("Version", splitted[2]);

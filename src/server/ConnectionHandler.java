@@ -55,21 +55,23 @@ public class ConnectionHandler implements Runnable{
 		            try {
 		                HTTPRequestHeader header = null;
 		                try {
-		                	header = new HTTPRequestHeader(helperHandler.getHeaderString(bis));
-		                	
-		                	byte[] body = null;
-		                	
-		        			if(header.getContentLength()>=0) {
-		        				body = helperHandler.getBytes(header.getContentLength(), bis);			
-		        			}
-		        			
-		        			HTTPMethod method = HTTPMethod.valueOf(header.getHttpMethod());
-		        			String uriString = header.getHeaderValue("Host") + header.getHeaderValue("Path");
-		        			HTTPCommand command = HTTPCommandFactory.getHTTPCommand(method, uriString, clientSocket.getLocalPort());
-		        			
-		        			ServerRequestHandler requestHandler = ServerRequestHandlerFactory.getHandler(command.getHttpmethod());
-		        			requestHandler.handle(command, body, header, clientSocket);
+		                	String headerString = helperHandler.getHeaderString(bis);
+		                	if(!headerString.trim().isEmpty()) {
+		                		header = new HTTPRequestHeader(headerString);
+			                	byte[] body = null;
+
+			        			if(header.getContentLength()>=0) {
+			        				body = helperHandler.getBytes(header.getContentLength(), bis);			
+			        			}
+
+			        			HTTPMethod method = HTTPMethod.valueOf(header.getHttpMethod());
+			        			String uriString = header.getHeaderValue("Host") + header.getHeaderValue("Path");
+			        			HTTPCommand command = HTTPCommandFactory.getHTTPCommand(method, uriString, clientSocket.getLocalPort());
+			        			ServerRequestHandler requestHandler = ServerRequestHandlerFactory.getHandler(command.getHttpmethod());
+			        			requestHandler.handle(command, body, header, clientSocket);
+		                	}
 		                }catch (Exception e) {
+		                	//e.printStackTrace();
 							helperHandler.respond404(clientSocket);
 						}
 		         

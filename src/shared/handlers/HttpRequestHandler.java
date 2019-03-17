@@ -138,13 +138,13 @@ public class HttpRequestHandler {
 	}
 	
 	protected String writeContentLength(int length) throws IOException {
-		return "Content-Length: " + length +"\n";
-		
+		//return "Content-Length: " + length +"\n";
+		return "Content-Length: " + length;
 	}
 
 	protected String writeContentType(Path path) throws IOException {
-		return "Content-Type: " + getContentTypeFromPath(path) + "\n";
-		
+		//return "Content-Type: " + getContentTypeFromPath(path) + "\n";
+		return "Content-Type: " + getContentTypeFromPath(path);
 	}
 
 	private String getContentTypeFromPath(Path path) {
@@ -167,24 +167,25 @@ public class HttpRequestHandler {
 	}
 
 	protected String writeDate() throws IOException {
-		return "Date: " + java.time.format.DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now(ZoneOffset.UTC)) + "\n";
+		//return "Date: " + java.time.format.DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now(ZoneOffset.UTC)) + "\n";
+		return "Date: " + java.time.format.DateTimeFormatter.RFC_1123_DATE_TIME.format(ZonedDateTime.now(ZoneOffset.UTC));
 	}
 
 	public void respond404(Socket socket) throws IOException {
 		System.out.println("not found");
-		String outString = "HTTP/1.1 404 Not Found\n\n";
+		String outString = "HTTP/1.1 404 Not Found\r\n\r\n";
 		OutputStream outputStream = socket.getOutputStream();
 		outputStream.write(outString.getBytes());
-		outputStream.close();
+		//outputStream.close();
 		
 	}
 	public void respond400(Socket socket) throws IOException {
 		System.out.println("bad request");
-		String outString = "HTTP/1.1 400 Bad Request\n\n";
+		//String outString = "HTTP/1.1 400 Bad Request\n\n";
+		String outString = "HTTP/1.1 400 Bad Request\r\n\r\n";
 		OutputStream outputStream = socket.getOutputStream();
 		outputStream.write(outString.getBytes());
-		outputStream.close();
-		
+		//outputStream.close();
 	}
 
 }

@@ -44,6 +44,6 @@ public abstract class ServerRequestHandler extends HttpRequestHandler {
 		output += "\n";
 		OutputStream outputStream = socket.getOutputStream();
 		outputStream.write(output.getBytes());
-		outputStream.close();
+		//outputStream.close();
 	}
 }

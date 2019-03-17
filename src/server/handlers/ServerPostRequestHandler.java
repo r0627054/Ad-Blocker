@@ -34,8 +34,7 @@ public class ServerPostRequestHandler extends ServerRequestHandler {
 		headerString += "\n";
 		OutputStream outputStream = socket.getOutputStream();
 		outputStream.write(headerString.getBytes());
-		outputStream.close();
-		
+		//outputStream.close();
 	}
 
 	private void saveBodyToFile(String remoteAddress, String bodyString) {

@@ -40,6 +40,7 @@ public class ServerApp {
 		
 		while(true) {
 			connectionHandler = new ConnectionHandler(serverSocket.accept());
+			System.out.println("A socket is created");
 			thread = new Thread(connectionHandler);
 			thread.start();
 		}

@@ -51,8 +51,8 @@ public class ServerGetRequestHandler extends ServerRequestHandler {
 		OutputStream outputStream = socket.getOutputStream();
 		try {
 			filebytes = Files.readAllBytes(fileToServe.toPath());
-			headerString += writeDate();
-			headerString += writeContentType(fileToServe.toPath());
+			headerString += writeDate() +"\n";
+			headerString += writeContentType(fileToServe.toPath()) + "\n";
 			headerString += writeContentLength(filebytes.length);
 			headerString += "\r\n\r\n";
 			outputStream.write(headerString.getBytes());
@@ -60,7 +60,7 @@ public class ServerGetRequestHandler extends ServerRequestHandler {
 		} catch (AccessDeniedException e) {
 			respond404(socket);
 		}
-		outputStream.close();
+		//outputStream.close();
 	}
 
 	
