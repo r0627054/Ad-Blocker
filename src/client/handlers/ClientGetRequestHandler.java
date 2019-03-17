@@ -47,8 +47,10 @@ public class ClientGetRequestHandler extends ClientRequestHandler {
 		HTTPHeader header = new HTTPHeader(headerString);
 
 				
-		byte[] contentBytes = handleOneRequest(command, inputStream, header,true);
+		
 		if("html".equals(header.getContentSubTypeResponse())) {
+			byte[] contentBytes = handleOneRequest(command, inputStream, header,false);
+			
 			//raw content html
 			String rawContent = this.bytesToString(contentBytes);
 			
@@ -63,6 +65,8 @@ public class ClientGetRequestHandler extends ClientRequestHandler {
 			System.out.println(blockedHtml);
 			
 			getOtherResources(command, inputStream, outputStream, blockedHtml, header);
+		}else {
+			byte[] contentBytes = handleOneRequest(command, inputStream, header,true);
 		}
 	}
 		

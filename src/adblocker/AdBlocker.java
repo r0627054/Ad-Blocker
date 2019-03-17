@@ -85,7 +85,7 @@ public class AdBlocker {
 			for(String blackListed : this.getAdKeyWords()) {
 				if(newPath.contains(blackListed)) {
 					//removes the tag
-					editedHtml = editedHtml.replaceAll("<img[^>]*src=[\"']"+ newPath+  "([^\"^']*)", "");
+					editedHtml = editedHtml.replaceAll("[^<img].*src=\"" + newPath +  "\".*[$>]", "");
 					break;
 				}
 			}
