@@ -60,7 +60,7 @@ public class ServerPutRequestHandler extends ServerRequestHandler {
 	}
 
 	/**
-	 * It saves a body to the file: with name the currentTime in milli seconds.
+	 * It saves a body to the file (new file): with name the currentTime in milliseconds.
 	 * @param remoteAddress
 	 *        | the address of the client
 	 * @param bodyString

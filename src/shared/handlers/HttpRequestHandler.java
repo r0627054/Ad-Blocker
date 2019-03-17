@@ -180,7 +180,7 @@ public class HttpRequestHandler {
 		
 	}
 	public void respond400(Socket socket) throws IOException {
-		System.out.println("bad request");
+		System.out.println("bad request 400");
 		//String outString = "HTTP/1.1 400 Bad Request\n\n";
 		String outString = "HTTP/1.1 400 Bad Request\r\n\r\n";
 		OutputStream outputStream = socket.getOutputStream();
