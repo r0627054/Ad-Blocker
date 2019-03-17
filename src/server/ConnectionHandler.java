@@ -57,11 +57,15 @@ public class ConnectionHandler implements Runnable{
 		                try {
 		                	String headerString = helperHandler.getHeaderString(bis);
 		                	if(!headerString.trim().isEmpty()) {
+		                		System.out.println(headerString);
 		                		header = new HTTPRequestHeader(headerString);
 			                	byte[] body = null;
 
 			        			if(header.getContentLength()>=0) {
 			        				body = helperHandler.getBytes(header.getContentLength(), bis);			
+			        			}
+			        			if(!header.containsHeader("Host")) {
+			        				throw new BadRequestException("No host header present.");
 			        			}
 
 			        			HTTPMethod method = HTTPMethod.valueOf(header.getHttpMethod());
@@ -70,9 +74,12 @@ public class ConnectionHandler implements Runnable{
 			        			ServerRequestHandler requestHandler = ServerRequestHandlerFactory.getHandler(command.getHttpmethod());
 			        			requestHandler.handle(command, body, header, clientSocket);
 		                	}
-		                }catch (Exception e) {
-		                	//e.printStackTrace();
-							helperHandler.respond404(clientSocket);
+		                }catch (BadRequestException e) {
+							helperHandler.respond400(clientSocket);
+						}
+		                catch (Exception e) {
+							helperHandler.respond500(clientSocket);
+							e.printStackTrace();
 						}
 		         
 		                alive = true;                    
@@ -84,35 +91,6 @@ public class ConnectionHandler implements Runnable{
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-		
-		
-		
-		
-//		try {
-//			HTTPRequestHeader header = new HTTPRequestHeader(helperHandler.getHeaderString(clientSocket.getInputStream()));
-//			
-//			byte[] body = null;
-//			
-//			if(header.getContentLength()>=0) {
-//				body = helperHandler.getBytes(header.getContentLength(), clientSocket.getInputStream());			
-//			}
-//			
-//			HTTPMethod method = HTTPMethod.valueOf(header.getHttpMethod());
-//			String uriString = header.getHeaderValue("Host") + header.getHeaderValue("Path");
-//			HTTPCommand command = HTTPCommandFactory.getHTTPCommand(method, uriString, clientSocket.getLocalPort());
-//			
-//			ServerRequestHandler requestHandler = ServerRequestHandlerFactory.getHandler(command.getHttpmethod());
-//			requestHandler.handle(command, body, header, clientSocket);
-//			
-//		} catch (Exception e) {
-//			try {
-//				helperHandler.respond404(clientSocket);
-//			} catch (IOException e1) {
-//				// TODO Auto-generated catch block
-//				e1.printStackTrace();
-//			}
-//			
-//		}
 	}
 	
 

@@ -60,7 +60,6 @@ public class ServerGetRequestHandler extends ServerRequestHandler {
 		} catch (AccessDeniedException e) {
 			respond404(socket);
 		}
-		//outputStream.close();
 	}
 
 	
