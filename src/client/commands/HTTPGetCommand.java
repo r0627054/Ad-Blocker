@@ -9,7 +9,7 @@ import httpproperties.HTTPMethod;
 public class HTTPGetCommand extends HTTPCommand {
 
 	/**
-	 * Initialises a HTTP command with the given variables.
+	 * Initialises a HTTP GET command with the given variables.
 	 * @param uriString
 	 *        | the uri given in string format
 	 * @param port
@@ -22,7 +22,7 @@ public class HTTPGetCommand extends HTTPCommand {
 	}
 	
 	/**
-	 * Initialises a HTTP command with the given variables.
+	 * Initialises a HTTP GET command with the given variables.
 	 * @param uriString
 	 *        | the uri given in string format
 	 * @param port
