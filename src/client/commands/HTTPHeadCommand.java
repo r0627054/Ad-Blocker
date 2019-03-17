@@ -4,7 +4,7 @@ import httpproperties.HTTPMethod;
 
 /**
  * The HTTPHeadCommand is a subclass of the HTTPCommand.
- *  This class is specifically made the HEAD REQUEST.
+ *  This class is specifically made for the HEAD REQUEST.
  *
  */
 public class HTTPHeadCommand extends HTTPCommand{

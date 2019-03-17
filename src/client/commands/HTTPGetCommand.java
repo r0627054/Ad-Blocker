@@ -3,7 +3,7 @@ package client.commands;
 import httpproperties.HTTPMethod;
 /**
  * The HTTPGetCommand is a subclass of the HTTPCommand.
- *  This class is specifically made the GET REQUEST.
+ *  This class is specifically made for the GET REQUEST.
  *
  */
 public class HTTPGetCommand extends HTTPCommand {
