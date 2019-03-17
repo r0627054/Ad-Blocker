@@ -39,9 +39,9 @@ public abstract class ServerRequestHandler extends HttpRequestHandler {
 	 */
 	public void respond304(Socket socket) throws IOException {
 		String output = "HTTP/1.1 304 Not Modified\n";
-		output += writeDate();
+		output += writeDate() +"\n";
 		output += writeContentLength(0);
-		output += "\n";
+		output +=  "\r\n\r\n";
 		OutputStream outputStream = socket.getOutputStream();
 		outputStream.write(output.getBytes());
 		//outputStream.close();
