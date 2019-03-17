@@ -50,7 +50,7 @@ public class ClientGetRequestHandler extends ClientRequestHandler {
 
 				
 		if("html".equals(header.getContentSubTypeResponse())) {
-			byte[] contentBytes = handleOneRequest(command, inputStream, header,true);
+			byte[] contentBytes = handleOneRequest(command, inputStream, header,false);
 			
 			//raw content html
 			String rawContent = this.bytesToString(contentBytes);
@@ -65,7 +65,7 @@ public class ClientGetRequestHandler extends ClientRequestHandler {
 			
 			//SYSOUT the filtered html
 			System.out.println(blockedHtml);
-			
+			saveFile(blockedHtml.getBytes(), command.getHost(), command.getBaseFileName(), header.getContentSubTypeResponse());
 			getOtherResources(command, inputStream, outputStream, socket, blockedHtml, header);
 		}else {
 			byte[] contentBytes = handleOneRequest(command, inputStream, header,true);
@@ -119,8 +119,8 @@ public class ClientGetRequestHandler extends ClientRequestHandler {
 				 byte[] contentOffResource = this.handleOneRequest(command, inputStream, resourceHeader,true);
 				 
 				 //SYSOUT the resource response body
-				 System.out.println(this.bytesToString(contentOffResource));
-				 
+				 //System.out.println(this.bytesToString(contentOffResource));
+				 System.out.println("the content");
 		    }
 	}
 }
