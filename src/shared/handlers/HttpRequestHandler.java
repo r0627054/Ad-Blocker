@@ -188,4 +188,13 @@ public class HttpRequestHandler {
 		//outputStream.close();
 	}
 
+	public void respond500(Socket socket) throws IOException {
+		System.out.println("Server error");
+		String outString = "HTTP/1.1 500 Server Error\r\n\r\n";
+		OutputStream outputStream = socket.getOutputStream();
+		outputStream.write(outString.getBytes());
+		//outputStream.close();
+		
+	}
+
 }
